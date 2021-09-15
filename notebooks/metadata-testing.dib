@@ -1,0 +1,11 @@
+#!csharp
+
+#r "nuget:MetadataExtractor"
+using MetadataExtractor;
+
+#!csharp
+
+#r "nuget:MetadataExtractor"
+using MetadataExtractor;
+var metadata = ImageMetadataReader.ReadMetadata("DSC07301.JPG");
+display(metadata);

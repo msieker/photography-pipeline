@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{203497DF-A62B-488C-AC72-13DF4DB02B07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "photography-functions", "src\photography-functions\photography-functions.csproj", "{D66BCFCE-CC2F-4C59-B940-AD8F1EE21AC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D66BCFCE-CC2F-4C59-B940-AD8F1EE21AC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D66BCFCE-CC2F-4C59-B940-AD8F1EE21AC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D66BCFCE-CC2F-4C59-B940-AD8F1EE21AC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D66BCFCE-CC2F-4C59-B940-AD8F1EE21AC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D66BCFCE-CC2F-4C59-B940-AD8F1EE21AC4} = {203497DF-A62B-488C-AC72-13DF4DB02B07}
+	EndGlobalSection
+EndGlobal
