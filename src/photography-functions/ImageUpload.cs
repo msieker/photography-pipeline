@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using MetadataExtractor;
+using System.Linq;
 
 namespace photography_functions
 {

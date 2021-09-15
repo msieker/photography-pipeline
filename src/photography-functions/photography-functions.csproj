@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <RootNamespace>photography_functions</RootNamespace>
     <UserSecretsId>fac6adc6-01ff-45ed-943f-3e05cae8f2a3</UserSecretsId>
