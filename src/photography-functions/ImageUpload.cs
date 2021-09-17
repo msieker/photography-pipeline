@@ -16,7 +16,10 @@ namespace photography_functions
     {
         [FunctionName("ImageUpload")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]
+            HttpRequest req,
+            [CosmosDB(databaseName:"photography", collectionName:"photos", ConnectionStringSetting ="ConnectionStrings:Cosmos")]
+            IAsyncCollector<dynamic> documentsOut,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -36,8 +39,14 @@ namespace photography_functions
                 {
                     t.Type,
                     t.Name,
-                    Descripiton = t.Description.Trim()
+                    Description = t.Description.Trim()
                 }));
+
+            await documentsOut.AddAsync(new
+            {
+                FileName = name,
+                Metadata = metadata
+            });
             return new OkObjectResult(new
             {
                 FileName = name,

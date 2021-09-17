@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PhotographyPipeline.Framework.TestHarness": {
+      "commandName": "Project",
+      "commandLineArgs": "analyze \"C:\\src\\photography-pipeline\\test-photos\\DSC07301.JPG\""
+    }
+  }
+}
