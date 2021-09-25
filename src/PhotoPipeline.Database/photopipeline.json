@@ -1,0 +1,19 @@
+﻿{
+  "PhotoPipeline": {
+    "Database": {
+      "Default": "local-mssql-dev",
+      "Providers": [
+        {
+          "Name": "local-postgres-dev",
+          "Provider": "postgres",
+          "ConnectionString": "Host=localhost;Database=photopipeline;Username=photopipeline;Password=photopipeline"
+        },
+        {
+          "Name": "local-mssql-dev",
+          "Provider": "mssql",
+          "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PhotoPipelineDev"
+        }
+      ]
+    }
+  }
+}

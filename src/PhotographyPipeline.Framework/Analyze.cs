@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using SixLabors.ImageSharp;
@@ -28,10 +23,10 @@ namespace PhotographyPipeline.Framework
 
             using var ms = new MemoryStream();
             image.SaveAsJpeg(ms);
-            ms.Seek(0, SeekOrigin.Begin);  
+            ms.Seek(0, SeekOrigin.Begin);
             var visionClient = Authenticate(visionEndpoint, visionKey);
             Console.WriteLine($"Key: {visionKey}, Url: {visionEndpoint}");
-            var features = new List<VisualFeatureTypes?> { 
+            var features = new List<VisualFeatureTypes?> {
                 VisualFeatureTypes.ImageType, VisualFeatureTypes.Faces, VisualFeatureTypes.Adult,
                 VisualFeatureTypes.Categories, VisualFeatureTypes.Categories, VisualFeatureTypes.Color,
                 VisualFeatureTypes.Tags, VisualFeatureTypes.Description, VisualFeatureTypes.Objects,
