@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,9 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MetadataExtractor" Version="2.7.0" />
+    <PackageReference Include="CoenM.ImageSharp.ImageHash" Version="1.0.0" />
+    <PackageReference Include="DaanV2.UUID.Net" Version="1.1.0" />
+    <PackageReference Include="MetadataExtractor" Version="2.7.1" />
 	  <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="7.0.0" />
-	  <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
+	  <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PhotoPipeline.Database\PhotoPipeline.Database.csproj" />
   </ItemGroup>
 
 </Project>

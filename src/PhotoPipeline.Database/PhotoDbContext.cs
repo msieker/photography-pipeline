@@ -18,12 +18,12 @@ namespace PhotoPipeline.Database
 
             var _ = provider.Provider switch
             {
-                //"postgres" => builder
-                //.UseNpgsql(provider.ConnectionString, x => x.MigrationsAssembly("PhotoPipeline.Database.NpgSql"))
-                //.UseSnakeCaseNamingConvention(),
-                "mssql" => builder
-                .UseSqlServer(provider.ConnectionString, x => x
-                    .UseNetTopologySuite()),
+                "postgres" => builder
+                .UseNpgsql(provider.ConnectionString, x=>x.UseNetTopologySuite())
+                .UseSnakeCaseNamingConvention(),
+                //"mssql" => builder
+                //.UseSqlServer(provider.ConnectionString, x => x
+                //    .UseNetTopologySuite()),
                 _ => throw new Exception($"Unsupported provider: {config.Database.Default}")
             };
 
@@ -55,6 +55,7 @@ namespace PhotoPipeline.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasPostgresExtension("postgis");
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

@@ -2,6 +2,18 @@
 
 namespace PhotoPipeline.Common
 {
+    public class LocalStorageProvider
+    {
+        public string Path { get; set; } = "";
+    }
+
+    public class Storage
+    {
+        public string Provider { get; set; } = "";
+
+        public LocalStorageProvider? Local { get; set; } = null;
+    }
+
     public class DatabaseProvider
     {
         public string Name { get; set; } = null!;
@@ -22,8 +34,8 @@ namespace PhotoPipeline.Common
 
     public class PhotoPipelineConfig
     {
-        public Database Database { get; set; } = new Database();
-
+        public Database Database { get; set; } = new();
+        public Storage Storage { get; set; } = new();
         public string Environment { get; set; } = "";
     }
 

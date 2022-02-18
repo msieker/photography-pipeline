@@ -9,7 +9,7 @@ namespace PhotographyPipeline.Framework
     public record BasePhotoMetadata(
         string FileName,
         DateTimeOffset IntakeDate,
-        string FileHash,
+        Dictionary<string, string> Hashes,
         Dictionary<string, string> Metadata,
         int Width,
         int Height,
@@ -43,7 +43,7 @@ namespace PhotographyPipeline.Framework
 
         public static async Task<BasePhotoMetadata> GetMetadata(string fileName, Stream photoStream)
         {
-            using var ms = new MemoryStream();
+            await using var ms = new MemoryStream();
 
             await photoStream.CopyToAsync(ms);
             ms.Seek(0, SeekOrigin.Begin);
@@ -58,7 +58,10 @@ namespace PhotographyPipeline.Framework
             return new BasePhotoMetadata(
                 fileName,
                 DateTimeOffset.Now,
-                MakeHash(ms),
+                new Dictionary<string, string>
+                {
+                    {"sha256",MakeHash(ms) },
+                },
                 metadata,
                 ParseExifSize(metadata["Exif SubIFD:Exif Image Width"]),
                 ParseExifSize(metadata["Exif SubIFD:Exif Image Height"]),

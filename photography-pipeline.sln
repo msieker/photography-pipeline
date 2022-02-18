@@ -16,9 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoPipeline.Database", "src\PhotoPipeline.Database\PhotoPipeline.Database.csproj", "{D4CB1A3E-6CBC-48E4-BB27-C8C252060E3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoPipeline.Database", "src\PhotoPipeline.Database\PhotoPipeline.Database.csproj", "{D4CB1A3E-6CBC-48E4-BB27-C8C252060E3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoPipeline.Common", "src\PhotoPipeline.Common\PhotoPipeline.Common.csproj", "{EEB4C256-FA92-4521-9462-451E0A7DE499}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoPipeline.Common", "src\PhotoPipeline.Common\PhotoPipeline.Common.csproj", "{EEB4C256-FA92-4521-9462-451E0A7DE499}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoPipeline", "src\PhotoPipeline\PhotoPipeline.csproj", "{B47B11F3-1DDF-4722-8452-36A842E261BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -134,6 +136,26 @@ Global
 		{EEB4C256-FA92-4521-9462-451E0A7DE499}.Release|x64.Build.0 = Release|Any CPU
 		{EEB4C256-FA92-4521-9462-451E0A7DE499}.Release|x86.ActiveCfg = Release|Any CPU
 		{EEB4C256-FA92-4521-9462-451E0A7DE499}.Release|x86.Build.0 = Release|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Debug|x64.Build.0 = Debug|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Debug|x86.Build.0 = Debug|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Release|ARM.Build.0 = Release|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Release|ARM64.Build.0 = Release|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Release|x64.ActiveCfg = Release|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Release|x64.Build.0 = Release|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Release|x86.ActiveCfg = Release|Any CPU
+		{B47B11F3-1DDF-4722-8452-36A842E261BE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,6 +166,7 @@ Global
 		{203724C4-89EB-43EC-8113-E9D98BF48C93} = {203497DF-A62B-488C-AC72-13DF4DB02B07}
 		{D4CB1A3E-6CBC-48E4-BB27-C8C252060E3F} = {203497DF-A62B-488C-AC72-13DF4DB02B07}
 		{EEB4C256-FA92-4521-9462-451E0A7DE499} = {203497DF-A62B-488C-AC72-13DF4DB02B07}
+		{B47B11F3-1DDF-4722-8452-36A842E261BE} = {203497DF-A62B-488C-AC72-13DF4DB02B07}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66533486-26EA-48B5-92C8-60E4846A77D0}

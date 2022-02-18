@@ -1,12 +1,18 @@
 ﻿{
   "PhotoPipeline": {
+    "Storage": {
+      "Provider": "local",
+      "Local": {
+        "Path": "\\\\kyou\\storage_mirrored_photostore\\dev"
+      }
+    },
     "Database": {
-      "Default": "local-mssql-dev",
+      "Default": "local-postgres-dev",
       "Providers": [
         {
           "Name": "local-postgres-dev",
           "Provider": "postgres",
-          "ConnectionString": "Host=localhost;Database=photopipeline;Username=photopipeline;Password=photopipeline"
+          "ConnectionString": "Host=192.168.2.20;Database=photopipeline_dev;Username=photopipeline;Password=photopipeline"
         },
         {
           "Name": "local-mssql-dev",

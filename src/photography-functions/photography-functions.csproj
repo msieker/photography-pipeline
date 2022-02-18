@@ -6,13 +6,13 @@
     <UserSecretsId>fac6adc6-01ff-45ed-943f-3e05cae8f2a3</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MetadataExtractor" Version="2.7.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.15.0" />
+    <PackageReference Include="MetadataExtractor" Version="2.7.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.18.0" />
     <PackageReference Include="Microsoft.AspNetCore.AzureKeyVault.HostingStartup" Version="2.0.4" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.21.0" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB" Version="3.0.10" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.13" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.CosmosDB" Version="4.0.0-preview2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0-rtm.21477.8" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.0-preview2" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

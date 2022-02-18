@@ -18,7 +18,7 @@ namespace photography_functions
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]
             HttpRequest req,
-            [CosmosDB(databaseName:"photography", collectionName:"photos", ConnectionStringSetting ="ConnectionStrings:Cosmos")]
+            [CosmosDB(databaseName:"photography", containerName:"photos", Connection ="ConnectionStrings:Cosmos")]
             IAsyncCollector<dynamic> documentsOut,
             ILogger log)
         {
