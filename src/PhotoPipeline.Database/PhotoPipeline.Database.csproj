@@ -17,21 +17,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="EFCore.NamingConventions" Version="6.0.0-rc.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-rtm.21477.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-rtm.21477.8">
+    <PackageReference Include="EFCore.NamingConventions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0-rtm.21477.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="6.0.0-rtm.21477.8" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-rtm.21477.8" />
-    <PackageReference Include="NetTopologySuite" Version="2.3.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="6.0.0-rc.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="NetTopologySuite" Version="2.4.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="6.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PhotoPipeline.Common\PhotoPipeline.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\MsSql\" />
+    <Folder Include="Migrations\Postgres\" />
   </ItemGroup>
 
 </Project>

@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhotographyPipeline.Framework
+namespace PhotographyPipeline.Framework;
+
+public interface IFileStore
 {
-    public interface IFileStore
-    {
-        Task<string> Store(string path, Stream stream);
+    Task<string> Store(string path, Stream stream);
 
-        Task<string> MakeUrl(string fileId);
+    Task<string> MakeUrl(string fileId);
 
-        Task<Stream> GetStream(string fileId);
-    }
+    Task<Stream> GetStream(string fileId);
 }

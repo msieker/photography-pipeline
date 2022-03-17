@@ -5,14 +5,27 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>0c458dbc-5066-4a17-ad5b-09636f2a4a86</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="photopipeline.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="photopipeline.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="CommandLineParser" Version="2.9.0-preview1" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0-rtm.21515.15" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
 		<PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21473.1" />
+		<PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.21473.1" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\PhotographyPipeline.Framework\PhotographyPipeline.Framework.csproj" />
+		<ProjectReference Include="..\PhotoPipeline.Framework\PhotoPipeline.Framework.csproj" />
 	</ItemGroup>
 </Project>

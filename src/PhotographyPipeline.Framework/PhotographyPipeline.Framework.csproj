@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CoenM.ImageSharp.ImageHash" Version="1.0.0" />
+    <PackageReference Include="CoenM.ImageSharp.ImageHash" Version="1.2.30" />
     <PackageReference Include="DaanV2.UUID.Net" Version="1.1.0" />
     <PackageReference Include="MetadataExtractor" Version="2.7.1" />
-	  <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="7.0.0" />
-	  <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
+	  <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.ComputerVision" Version="7.0.1" />
+	  <PackageReference Include="Microsoft.Toolkit.HighPerformance" Version="7.1.2" />
+	  <PackageReference Include="SixLabors.ImageSharp" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

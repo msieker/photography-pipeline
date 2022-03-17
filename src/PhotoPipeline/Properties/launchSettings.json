@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PhotoPipeline": {
+      "commandName": "Project",
+      "commandLineArgs": "add --path C:\\photos-test\\import --path C:\\photos-test\\import2"
+    }
+  }
+}

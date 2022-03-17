@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using PhotoPipeline.Database.Entities;
 
-namespace PhotographyPipeline.Framework
+namespace PhotographyPipeline.Framework;
+
+internal interface IPhotoPipelineElement
 {
-    internal interface IPhotoPipelineElement
-    {
-        string Name { get; }
-        int Version { get; }
-        Task<Photo> Process(Photo photo, Stream photoStream);
-    }
+    string Name { get; }
+    int Version { get; }
+    Task<Photo> Process(Photo photo, Stream photoStream);
 }

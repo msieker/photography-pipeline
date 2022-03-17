@@ -1,0 +1,25 @@
+﻿{
+  "PhotoPipeline": {
+    "Storage": {
+      "Provider": "local",
+      "Local": {
+        "Path": "C:\\photos-test\\store"
+      }
+    },
+    "Database": {
+      "Default": "local-mssql-dev",
+      "Providers": [
+        {
+          "Name": "local-postgres-dev",
+          "Provider": "postgres",
+          "ConnectionString": "Host=192.168.2.20;Database=photopipeline_dev;Username=photopipeline;Password=photopipeline"
+        },
+        {
+          "Name": "local-mssql-dev",
+          "Provider": "mssql",
+          "ConnectionString": "Data Source=localhost;Initial Catalog=photopipeline_dev;Integrated Security=SSPI;MultipleActiveResultSets=True"
+        }
+      ]
+    }
+  }
+}

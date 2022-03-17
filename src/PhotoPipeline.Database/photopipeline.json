@@ -3,11 +3,11 @@
     "Storage": {
       "Provider": "local",
       "Local": {
-        "Path": "\\\\kyou\\storage_mirrored_photostore\\dev"
+        "Path": "C:\\photos-test\\store"
       }
     },
     "Database": {
-      "Default": "local-postgres-dev",
+      "Default": "local-mssql-dev",
       "Providers": [
         {
           "Name": "local-postgres-dev",
@@ -17,7 +17,7 @@
         {
           "Name": "local-mssql-dev",
           "Provider": "mssql",
-          "ConnectionString": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PhotoPipelineDev"
+          "ConnectionString": "Data Source=localhost;Initial Catalog=photopipeline_dev;Integrated Security=SSPI;MultipleActiveResultSets=True"
         }
       ]
     }
