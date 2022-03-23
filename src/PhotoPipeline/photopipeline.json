@@ -3,7 +3,9 @@
     "Storage": {
       "Provider": "local",
       "Local": {
-        "Path": "C:\\photos-test\\store"
+        "StoragePath": "C:\\photos-test\\store",
+        "TrashPath": "C:\\photos-test\\trash",
+        "DeleteBehavior": "CopyToTrash"
       }
     },
     "Database": {

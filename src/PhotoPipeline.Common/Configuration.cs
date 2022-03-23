@@ -1,17 +1,37 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Reflection;
+using Microsoft.Extensions.Configuration;
 
 namespace PhotoPipeline.Common;
 
-public class LocalStorageProvider
+public enum LocalStorageDeleteBehavior
 {
-    public string Path { get; set; } = "";
+    Unknown,
+    CopyToTrash,
+    Delete,
+    Nothing
+}
+
+public class LocalStorageConfig
+{
+    public string StoragePath { get; set; } = "";
+    public string TrashPath { get; set; } = "";
+
+    public LocalStorageDeleteBehavior DeleteBehavior { get; set; } = LocalStorageDeleteBehavior.Unknown;
+
+    public bool IsConfigured()
+    {
+        if (string.IsNullOrEmpty(StoragePath)) return false;
+        if (DeleteBehavior == LocalStorageDeleteBehavior.Unknown) return false;
+        if (DeleteBehavior == LocalStorageDeleteBehavior.CopyToTrash && string.IsNullOrEmpty(TrashPath)) return false;
+        return true;
+    }
 }
 
 public class Storage
 {
     public string Provider { get; set; } = "";
 
-    public LocalStorageProvider? Local { get; set; } = null;
+    public LocalStorageConfig? Local { get; set; } = null;
 }
 
 public class DatabaseProvider
@@ -32,10 +52,18 @@ public class Database
     }
 }
 
+public class AzureVisionConfig
+{
+    public string Key { get; set; } = "";
+    public string Endpoint { get; set; } = "";
+}
+
 public class PhotoPipelineConfig
 {
     public Database Database { get; set; } = new();
     public Storage Storage { get; set; } = new();
+    public AzureVisionConfig AzureVision { get; set; } = new();
+
     public string Environment { get; set; } = "";
 
     public int MaxParallelism { get; set; } = 1;
@@ -56,9 +84,12 @@ public static class ConfigurationProviderExtensions
             .AddInMemoryCollection(extra)
             .AddJsonFile("photopipeline.json")
             .AddJsonFile($"photopipeline.{environment}.json", true)
+            .AddUserSecrets(Assembly.GetExecutingAssembly())
             .AddEnvironmentVariables("PHOTOPIPELINE")
             .AddCommandLine(args ?? Array.Empty<string>());
 
+
+        //Console.WriteLine(builder.Build().GetDebugView());
         return builder;
     }
 

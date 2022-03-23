@@ -3,6 +3,8 @@ using CoenM.ImageHash.HashAlgorithms;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.HighPerformance;
 using PhotoPipeline.Database.Entities;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace PhotoPipeline.Framework.Blocks.Processing;
 public class HashPerceptual : IPipelineBlock
@@ -29,7 +31,7 @@ public class HashPerceptual : IPipelineBlock
         {
             return Task.FromResult(photo)!;
         }
-        _logger.LogInformation("Perceptual Hashing file {photoPath}", photo.SourcePath);
+        _logger.LogDebug("Perceptual Hashing file {photoPath}", photo.SourcePath);
 
         var hashDict = new Dictionary<string, IImageHash>()
         {
@@ -38,14 +40,25 @@ public class HashPerceptual : IPipelineBlock
             {"perceptual", new PerceptualHash()},
         };
 
-        foreach (var (name, alg) in hashDict)
+        try
         {
             using var ms = photo.Memory.Value.AsStream();
-            var hashed = alg.Hash(ms);
-
-            var hashString = Convert.ToHexString(BitConverter.GetBytes(hashed));
-
-            photo.Photo.Hashes.Add(new PhotoHash { HashType = name, HashValue = hashString, Source = BlockName});
+            using var image = Image.Load<Rgba32>(ms);
+            foreach (var (name, alg) in hashDict)
+            {
+                var hashed = alg.Hash(image);
+                var hashString = Convert.ToHexString(BitConverter.GetBytes(hashed));
+                photo.Photo.Hashes.Add(new PhotoHash {HashType = name, HashValue = hashString, Source = BlockName});
+            }
+        }
+        catch (NotSupportedException e)
+        {
+            _logger.LogWarning(e, "Problem processing {imageFile}", photo.SourcePath);
+        }
+        catch (InvalidImageContentException iice)
+        {
+            _logger.LogError(iice, "Problem processing {imageFile}, possibly corrupt. Skipping.", photo.SourcePath);
+            return Task.FromResult((PipelinePhoto?) null);
         }
 
         return Task.FromResult(photo)!;

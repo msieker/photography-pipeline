@@ -2,13 +2,16 @@
 using System.CommandLine.Builder;
 using System.CommandLine.Hosting;
 using System.CommandLine.Parsing;
+using LinqToDB.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using PhotoPipeline.Commands;
 using PhotoPipeline.Common;
 using PhotoPipeline.Database;
 using PhotoPipeline.Framework;
 using PhotoPipeline.Framework.Blocks;
+using PhotoPipeline.Framework.Storage;
 
 namespace PhotoPipeline;
 
@@ -46,17 +49,21 @@ public static class Program
         host.ConfigureAppConfiguration(cb =>
         {
             cb.AddPhotoPipelineConfig(args);
-
+            
         });
 
         host.ConfigureServices((hb, services) =>
         {
+            
             var config = hb.Configuration.GetPhotoPipelineConfig();
+            
             services.AddSingleton(config);
             services.AddPhotoDbContext(config);
             services.RegisterBlocks();
             services.AddScoped<PipelineFactory>();
             services.AddCommandHandlers();
+            services.AddStorageProviders(config);
+            LinqToDBForEFTools.Initialize();
         });
     }
 
@@ -64,7 +71,10 @@ public static class Program
     {
         var rootCommand = new RootCommand()
         {
-            new AddCommand()
+            PhotoCommandBuilder.Create<AddHandler, AddParameters>("add", "Add new photos")
+                .AddOption(new Option<string[]>("--path"){ AllowMultipleArgumentsPerToken = true, IsRequired = true}).Create(),
+            PhotoCommandBuilder.Create<PurgeHandler, PurgeParameters>("purge", "Remove photos marked as deleted").Create(),
+            PhotoCommandBuilder.Create<VisionHandler, VisionParameters>("vision", "Runs Azure Vision services over photos").Create(),
         };
 
         return new CommandLineBuilder(rootCommand);
@@ -92,7 +102,7 @@ public static class Program
 //        var attr = File.GetAttributes(opts.FileName);
 
 //        var fs = File.OpenRead(opts.FileName);
-//        var result = await PhotoIntake.GetMetadata(Path.GetFileName(opts.FileName), fs);
+//        var result = await PhotoIntake.GetMetadata(StoragePath.GetFileName(opts.FileName), fs);
 //        Console.WriteLine(JsonSerializer.Serialize(result, new JsonSerializerOptions
 //        {
 //            WriteIndented = true

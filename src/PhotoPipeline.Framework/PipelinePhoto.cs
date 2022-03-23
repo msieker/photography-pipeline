@@ -13,6 +13,7 @@ public sealed class PipelinePhoto : IDisposable
         SourcePath = sourcePath;
         Exists = false;
         Errored = false;
+        FileModifiedDate = File.GetLastWriteTime(sourcePath);
         FileName = Path.GetFileName(sourcePath);
         Photo = new Photo
         {
@@ -22,29 +23,47 @@ public sealed class PipelinePhoto : IDisposable
         };
     }
 
+    public PipelinePhoto(Photo photo)
+    {
+        Id = photo.Id;
+        SourcePath = photo.StoredPath;
+        Exists = true;
+        FileName = photo.OriginalFileName;
+        OutputPath = photo.StoredPath;
+
+        Photo = photo;
+    }
+
     public string Id { get; set; } = "";
     public string SourcePath { get; set; }
     public string FileName { get; set; }
     public string OutputPath { get; set; } = "";
+    public int FileSize { get; set; }
+
+    public DateTime FileModifiedDate { get; set; }
 
     public Photo Photo { get; set; }
     public bool Exists { get; set; }
     public bool Errored { get; set; }
 
-    public ReadOnlyMemory<byte>? Memory => _owner?.Memory;
+    public ReadOnlyMemory<byte>? Memory => _owner?.Memory[..FileSize];
 
     private IMemoryOwner<byte>? _owner;
+    
+    public async Task ReadFromStream(Stream stream, CancellationToken token = default)
+    {
+        _owner = MemoryPool<byte>.Shared.Rent((int)stream.Length);
+        FileSize = await stream.ReadAsync(_owner.Memory, token);
+    }
 
     public async Task ReadFile(CancellationToken token=default)
     {
         await using var sourceStream = File.OpenRead(SourcePath);
-
-        _owner = MemoryPool<byte>.Shared.Rent((int) sourceStream.Length);
-        await sourceStream.ReadAsync(_owner.Memory, token);
-
+        await ReadFromStream(sourceStream, token);
+        
         var hash = SHA256.Create();
         var hashBuffer = new byte[hash.HashSize >> 3];
-        if (!hash.TryComputeHash(_owner.Memory.Span, hashBuffer, out _))
+        if (!hash.TryComputeHash(Memory!.Value.Span, hashBuffer, out _))
         {
             throw new Exception("Couldn't compute a hash for some reason");
         }
@@ -52,12 +71,10 @@ public sealed class PipelinePhoto : IDisposable
         Id = Convert.ToHexString(hashBuffer).ToLowerInvariant();
     }
 
-    public async Task WriteJson(CancellationToken token)
+    public async Task WriteJson(Stream stream, CancellationToken token)
     {
         var obj = new PhotoJson(Photo);
-
-        await using var outFile = File.OpenWrite(OutputPath +".json");
-        await JsonSerializer.SerializeAsync(outFile, obj, new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true}, token);
+        await JsonSerializer.SerializeAsync(stream, obj, new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true}, token);
     }
 
     public void Dispose()
@@ -79,8 +96,8 @@ public class PhotoJson
         Height = photo.Height;
         Taken = photo.Taken;
 
-        Longitude = photo.Location?.Y;
-        Latitude = photo.Location?.X;
+        Longitude = photo.Location?.X;
+        Latitude = photo.Location?.Y;
 
         Metadata = photo.Metadata.Select(p => new PhotoMetadataJson(p)).OrderBy(p=>p.Key).ToList();
         Hashes = photo.Hashes.Select(p => new PhotoHashJson(p)).OrderBy(p => p.Type).ToList();
@@ -91,7 +108,7 @@ public class PhotoJson
     public string OriginalPath { get; set; }
     public string OriginalFileName { get; set; }
     public DateTimeOffset IntakeDate { get; set; }
-
+    
     public int Width { get; set; }
     public int Height { get; set; }
     public DateTime Taken { get; set; }

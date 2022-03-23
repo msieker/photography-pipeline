@@ -22,7 +22,7 @@ public class HashFile : IPipelineBlock
             _logger.LogWarning("Got a photo with no memory");
             return Task.FromResult(photo)!;
         }
-        _logger.LogInformation("Hashing file {photoPath}", photo.SourcePath);
+        _logger.LogDebug("Hashing file {photoPath}", photo.SourcePath);
         var hashDict = new Dictionary<string, HashAlgorithm>()
         {
             {"sha1", SHA1.Create()},

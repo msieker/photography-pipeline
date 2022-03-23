@@ -29,7 +29,9 @@ public class BlockFactory
     private ExecutionDataflowBlockOptions MakeOptions(CancellationToken token) => new()
     {
         MaxDegreeOfParallelism = _config.MaxParallelism,
-        CancellationToken = token
+        BoundedCapacity = _config.MaxParallelism * 2,
+        CancellationToken = token,
+        EnsureOrdered = false
     };
 
     public IPropagatorBlock<PipelinePhoto, PipelinePhoto> Get(string blockName, CancellationToken token)
@@ -68,7 +70,7 @@ public class BlockFactory
             record.StepVersion = block.BlockVersion;
             record.Processed = DateTimeOffset.Now;
 
-            source.Post(result);
+            await source.SendAsync(result, token);
         }, MakeOptions(token));
 
         target.Completion.ContinueWith(delegate { source.Complete(); }, token);

@@ -20,37 +20,21 @@ public class PipelineFactory
         _blocks = blocks;
     }
 
-    public async Task Add(string[] sourcePaths, CancellationToken token)
+    private ITargetBlock<PipelinePhoto> BuildPipeline(ISourceBlock<PipelinePhoto> source, string[] blocks, CancellationToken token = default)
     {
         var linkOptions = new DataflowLinkOptions { PropagateCompletion = true };
-
-        var listDir = _blocks.Sources.ListDirectory(token);
-        var readFile = _blocks.Sources.ReadFile(token);
-
         var saveToDatabase = _blocks.Output.SaveToDatabase(token);
-        var copyFile = _blocks.Output.CopyFile(token);
 
         var final = new ActionBlock<PipelinePhoto>(p =>
         {
-            _logger.LogInformation("Completed processing media: {mediaPath}", p.SourcePath);
+            _logger.LogDebug("Completed processing media: {mediaPath}", p.SourcePath);
             p.Dispose();
-        }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = _config.MaxParallelism, CancellationToken = token });
+        }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = _config.MaxParallelism, CancellationToken = token, EnsureOrdered = false });
 
-        listDir.LinkTo(readFile, linkOptions);
+        saveToDatabase.LinkTo(final, linkOptions);
 
-        saveToDatabase.LinkTo(copyFile, linkOptions);
-        copyFile.LinkTo(final, linkOptions);
-        var blockNames = new[]
-        {
-            BlockNames.Processing.ResolveEntity,
-            BlockNames.Utility.Deduplicate,
-            BlockNames.Processing.HashFile,
-            BlockNames.Processing.HashPerceptual,
-            BlockNames.Processing.ReadExif
-        };
-        
-        ISourceBlock<PipelinePhoto> lastHead = readFile;
-        foreach (var step in blockNames)
+        ISourceBlock<PipelinePhoto> lastHead = source;
+        foreach (var step in blocks)
         {
             var block = _blocks.Get(step, token);
             lastHead.LinkTo(block, linkOptions);
@@ -59,9 +43,78 @@ public class PipelineFactory
 
         lastHead.LinkTo(saveToDatabase, linkOptions);
 
+        return final;
+
+    }
+
+    public async Task Purge(CancellationToken token)
+    {
+        var linkOptions = new DataflowLinkOptions { PropagateCompletion = true };
+        var source = _blocks.Sources.FromDatabase(q => q.Where(p => p.Deleted && !p.Removed), token);
+
+        var blockNames = new[]
+        {
+            BlockNames.Utility.RemoveFile
+        };
+
+        var final = BuildPipeline(source, blockNames, token);
+        await source.RunQuery(token);
+        try
+        {
+            await final.Completion;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error running pipeline");
+        }
+    }
+
+    public async Task AzureVision(CancellationToken token)
+    {
+        var linkOptions = new DataflowLinkOptions { PropagateCompletion = true };
+        var source = _blocks.Sources.FromDatabase(q => q.Where(p => !p.Deleted), token);
+
+        var blockNames = new[]
+        {
+            BlockNames.Processing.AzureVision,
+            BlockNames.Utility.WriteFile
+        };
+
+        var final = BuildPipeline(source, blockNames, token);
+        await source.RunQuery(token);
+        try
+        {
+            await final.Completion;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error running pipeline");
+        }
+    }
+
+    public async Task Add(string[] sourcePaths, CancellationToken token)
+    {
+        var linkOptions = new DataflowLinkOptions { PropagateCompletion = true };
+
+        var listDir = _blocks.Sources.ListDirectory(token);
+        var readFile = _blocks.Sources.ReadFile(token);
+        listDir.LinkTo(readFile, linkOptions);
+
+        var blockNames = new[]
+        {
+            BlockNames.Processing.ResolveEntity,
+            BlockNames.Utility.Deduplicate,
+            BlockNames.Processing.HashFile,
+            BlockNames.Processing.HashPerceptual,
+            BlockNames.Processing.ReadExif,
+            BlockNames.Utility.WriteFile
+        };
+
+        var final = BuildPipeline(readFile, blockNames, token);
+
         foreach (var p in sourcePaths)
         {
-            listDir.Post(p);
+            await listDir.SendAsync(p, token);
         }
         listDir.Complete();
 

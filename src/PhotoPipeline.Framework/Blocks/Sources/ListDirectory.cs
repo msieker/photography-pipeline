@@ -14,6 +14,7 @@ public static class ListDirectory
     public static IEnumerable<string> Action(string path, ILogger logger, CancellationToken token = default)
     {
         logger.LogInformation("Reading files from {sourcePath}", path);
+        
         return Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories)
             .Where(p => KnownExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase))
             .ToArray();

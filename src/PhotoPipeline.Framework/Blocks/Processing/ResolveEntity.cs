@@ -31,14 +31,14 @@ public class ResolveEntity : IPipelineBlock
 
         if (entity == null)
         {
-            _logger.LogInformation("Photo {photoPath} with id {photoId} is new", photo.SourcePath, photo.Id);
+            _logger.LogDebug("Photo {photoPath} with id {photoId} is new", photo.SourcePath, photo.Id);
             photo.Photo.Id = photo.Id;
             photo.Photo.OriginalFileName = photo.FileName;
         }
         else
         {
-            _logger.LogInformation("Photo {photoPath} with id {photoId} already exists", photo.SourcePath, photo.Id);
-            photo.Exists = true;
+            _logger.LogDebug("Photo {photoPath} with id {photoId} already exists", photo.SourcePath, photo.Id);
+            return null;
         }
         return photo;
     }

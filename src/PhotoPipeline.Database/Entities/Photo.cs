@@ -14,6 +14,7 @@ public class Photo
 
     public string StoredPath { get; set; } = "";
 
+    public bool Removed { get; set; }
     public bool Deleted { get; set; }
 
     public int Width { get; set; }
@@ -73,7 +74,6 @@ public class PhotoMetadata
             builder.Property(b => b.PhotoId)
                 .HasMaxLength(64).IsFixedLength().IsUnicode(false);
             builder.HasKey(b => new { b.PhotoId, b.Key });
-            builder.HasIndex(b => new { b.Key, b.Value });
         }
     }
 }

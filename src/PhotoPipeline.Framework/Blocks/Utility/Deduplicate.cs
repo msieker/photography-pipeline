@@ -25,7 +25,7 @@ internal class Deduplicate : IPipelineBlock
         }
         else
         {
-            _logger.LogInformation("Duplicate image in import {imagePath}", photo.FileName);
+            _logger.LogDebug("Duplicate image in import {imagePath}", photo.FileName);
             return Task.FromResult((PipelinePhoto?)null)!;
         }
     }
